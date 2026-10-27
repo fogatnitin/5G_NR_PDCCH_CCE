@@ -1,0 +1,44 @@
+{
+  "_readme": "Each parameter has a 'value' (edit this) and a 'description' (explanation, ignored by the script). Formula: CCE = L * { (Y + floor(m*N_CCE_p / (L*M_max_L)) + n_CI) mod floor(N_CCE_p/L) } + i   (TS 38.213, Sec 10.1)",
+
+  "coreset_id": {
+    "value": 2,
+    "description": "CORESET index p. For USS it selects A_p: p mod 3 = 0 -> 39827, 1 -> 39829, 2 -> 39830. Not used in the CSS calculation (Y = 0)."
+  },
+  "search_space_id": {
+    "value": 2,
+    "description": "Search space index s, as configured in SIB1 / RRC. Informational only, not used in the formula."
+  },
+  "search_space_type": {
+    "value": "USS",
+    "description": "'CSS' = Common Search Space (Y = 0, same CCEs every slot). 'USS' = UE-specific Search Space (Y derived from RNTI and slot)."
+  },
+  "aggregation_level": {
+    "value": 2,
+    "description": "Aggregation Level L = number of CCEs per PDCCH candidate. Allowed: 1, 2, 4, 8, 16. Also sets the CCE offset range i = 0 .. L-1."
+  },
+  "num_candidates": {
+    "value": 4,
+    "description": "Number of PDCCH candidates configured for this AL in the search space (M_s,nCI^(L)). Candidate index m runs 0 .. num_candidates-1. Defaults to M_max_L if omitted."
+  },
+  "M_max_L": {
+    "value": 4,
+    "description": "M_s,max^(L): the maximum number of PDCCH candidates for this AL over all carriers (equals num_candidates when there is no cross-carrier scheduling). Used as the divisor that spreads candidates across the CORESET."
+  },
+  "N_CCE_p": {
+    "value": 40,
+    "description": "Total number of CCEs in CORESET p = (CORESET RBs in frequency / 6) x (CORESET duration in OFDM symbols). 1 CCE = 6 REGs = 6 RBs x 1 symbol."
+  },
+  "slot": {
+    "value": 2,
+    "description": "Slot number n^mu_s,f within the radio frame, based on the numerology in which the UE decodes PDCCH. Only affects USS (Y is recomputed each slot); ignored for CSS."
+  },
+  "n_CI": {
+    "value": 0,
+    "description": "Carrier indicator field value. Use 0 if cross-carrier scheduling is not configured for the serving cell."
+  },
+  "rnti": {
+    "value": 3,
+    "description": "C-RNTI of the UE, used as Y_p,-1 for the USS hash (Y_p,n = (A_p * Y_p,n-1) mod 65537). Must be non-zero for USS. Leave 0 for CSS."
+  }
+}
